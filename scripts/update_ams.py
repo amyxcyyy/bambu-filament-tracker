@@ -5,7 +5,9 @@ import json
 import os
 import sys
 import time
+import threading
 from datetime import datetime, timezone
+
 
 def main():
     from bambulab import MQTTClient
@@ -18,11 +20,11 @@ def main():
         print("Error: BAMBU_TOKEN, BAMBU_UID, and BAMBU_SERIAL must be set")
         sys.exit(1)
 
-    data_dir = os.path.join(os.path.dirname(__file__), "..", "data")
+    data_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "data")
     ams_file = os.path.join(data_dir, "ams_status.json")
-
-    # Load existing data for history tracking
     history_file = os.path.join(data_dir, "usage_history.json")
+
+    # Load existing history
     if os.path.exists(history_file):
         with open(history_file) as f:
             history = json.load(f)
@@ -30,38 +32,62 @@ def main():
         history = {"updates": []}
 
     ams_data = None
+    data_lock = threading.Lock()
 
     def on_message(device_id, data):
         nonlocal ams_data
         if "print" in data and "ams" in data["print"]:
-            ams_data = data["print"]["ams"]
+            with data_lock:
+                ams_data = data["print"]["ams"]
+            print("Received AMS data!")
 
-    print(f"Connecting to printer {serial} via cloud MQTT...")
-    mqtt = MQTTClient(uid, token, serial, on_message=on_message)
-    mqtt.connect(blocking=False)
+    # Try multiple connection attempts
+    max_attempts = 3
+    for attempt in range(1, max_attempts + 1):
+        print(f"Attempt {attempt}/{max_attempts}: Connecting to printer {serial}...")
+        ams_data = None
 
-    # Wait up to 20 seconds for AMS data
-    for i in range(40):
-        time.sleep(0.5)
-        if ams_data:
-            break
+        try:
+            mqtt = MQTTClient(uid, token, serial, on_message=on_message)
+            mqtt.connect(blocking=False)
 
-    try:
-        mqtt.disconnect()
-    except:
-        pass
+            # Wait up to 30 seconds for data
+            for i in range(60):
+                time.sleep(0.5)
+                with data_lock:
+                    if ams_data is not None:
+                        break
 
-    if not ams_data:
-        print("No AMS data received. Printer may be offline.")
-        sys.exit(1)
+            try:
+                mqtt.disconnect()
+            except Exception:
+                pass
+
+            with data_lock:
+                if ams_data is not None:
+                    break
+
+        except Exception as e:
+            print(f"  Connection error: {e}")
+
+        if attempt < max_attempts:
+            print("  No data received, retrying in 5 seconds...")
+            time.sleep(5)
+
+    if ams_data is None:
+        # If we can't get live data, keep existing file and exit gracefully
+        print("Could not fetch AMS data after all attempts.")
+        if os.path.exists(ams_file):
+            print("Keeping existing AMS data file.")
+            sys.exit(0)
+        else:
+            print("No existing data file found.")
+            sys.exit(1)
 
     # Process AMS data
     now = datetime.now(timezone.utc).isoformat()
     trays = []
     for unit in ams_data.get("ams", []):
-        ams_id = unit.get("ams_id", "")
-        humidity = unit.get("humidity", "")
-        temp = unit.get("temp", "")
         for tray in unit.get("tray", []):
             trays.append({
                 "tray_id": tray.get("id"),
@@ -86,7 +112,7 @@ def main():
         json.dump(status, f, indent=2)
     print(f"AMS status saved: {len(trays)} trays found")
 
-    # Append to history (keep last 500 entries to avoid bloat)
+    # Append to history (keep last 500 entries)
     history_entry = {"timestamp": now, "trays": trays}
     history["updates"].append(history_entry)
     history["updates"] = history["updates"][-500:]
@@ -94,10 +120,10 @@ def main():
         json.dump(history, f, indent=2)
     print(f"History updated: {len(history['updates'])} entries")
 
-    # Print summary
     for t in trays:
         color = t["tray_color"][:6] if t["tray_color"] else "------"
         print(f"  Tray {t['tray_id']}: {t['tray_sub_brands']} ({t['tray_id_name']}) #{color} - {t['remain']}% remaining")
+
 
 if __name__ == "__main__":
     main()
