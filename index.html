@@ -113,9 +113,10 @@ function hexFromTrayColor(tc) {
 
 async function loadData() {
   try {
+    const cacheBust = '?t=' + Date.now();
     const [purchasedRes, amsRes] = await Promise.all([
-      fetch('data/purchased.json'),
-      fetch('data/ams_status.json').catch(() => null)
+      fetch('data/purchased.json' + cacheBust),
+      fetch('data/ams_status.json' + cacheBust).catch(() => null)
     ]);
 
     const purchased = await purchasedRes.json();
