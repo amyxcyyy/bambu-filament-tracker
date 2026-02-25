@@ -1,0 +1,26 @@
+{
+  "spools": [
+    {"name": "Jade White", "brand": "PLA Basic", "form": "spool", "color_hex": "#FFFEF2", "tray_id_name": "A00-W0", "order": 1},
+    {"name": "White", "brand": "PLA Silk+", "form": "spool", "color_hex": "#FFFFFF", "tray_id_name": "A06-W0", "order": 1},
+    {"name": "Beige", "brand": "PLA Basic", "form": "refill", "color_hex": "#D4C5A9", "tray_id_name": "A00-N1", "order": 1},
+    {"name": "Matte Desert Tan", "brand": "PLA Matte", "form": "refill", "color_hex": "#C8B88A", "tray_id_name": "A01-N1", "order": 1},
+    {"name": "Matte Charcoal", "brand": "PLA Matte", "form": "spool", "color_hex": "#333333", "tray_id_name": "A01-K1", "order": 1},
+    {"name": "Matte Charcoal", "brand": "PLA Matte", "form": "spool", "color_hex": "#333333", "tray_id_name": "A01-K1", "order": 2},
+    {"name": "Black", "brand": "PLA Basic", "form": "refill", "color_hex": "#000000", "tray_id_name": "A00-K0", "order": 2},
+    {"name": "Gray", "brand": "PLA Basic", "form": "refill", "color_hex": "#808080", "tray_id_name": "A00-K2", "order": 2},
+    {"name": "Red", "brand": "PLA Basic", "form": "spool", "color_hex": "#C12E1F", "tray_id_name": "A00-R0", "order": 1},
+    {"name": "Pink", "brand": "PLA Silk+", "form": "spool", "color_hex": "#F5A0B1", "tray_id_name": "A06-R1", "order": 1},
+    {"name": "Matte Sakura Pink", "brand": "PLA Matte", "form": "refill", "color_hex": "#F4B5C1", "tray_id_name": "A01-R1", "order": 2},
+    {"name": "Sunflower Yellow", "brand": "PLA Basic", "form": "spool", "color_hex": "#FEC600", "tray_id_name": "A00-Y2", "order": 1},
+    {"name": "Matte Lemon Yellow", "brand": "PLA Matte", "form": "refill", "color_hex": "#F5E050", "tray_id_name": "A01-Y0", "order": 2},
+    {"name": "Gold", "brand": "PLA Silk+", "form": "refill", "color_hex": "#F4A925", "tray_id_name": "A06-Y1", "order": 2},
+    {"name": "Cobalt Blue", "brand": "PLA Basic", "form": "refill", "color_hex": "#2050C0", "tray_id_name": "A00-B4", "order": 1},
+    {"name": "Baby Blue", "brand": "PLA Silk+", "form": "spool", "color_hex": "#7EC8E3", "tray_id_name": "A06-B3", "order": 2},
+    {"name": "Matte Ice Blue", "brand": "PLA Matte", "form": "refill", "color_hex": "#A0D2E0", "tray_id_name": "A01-B1", "order": 2},
+    {"name": "Bambu Green", "brand": "PLA Basic", "form": "spool", "color_hex": "#00AE42", "tray_id_name": "A00-G1", "order": 1},
+    {"name": "Mistletoe Green", "brand": "PLA Basic", "form": "refill", "color_hex": "#2E6B4E", "tray_id_name": "A00-G2", "order": 2},
+    {"name": "Pumpkin Orange", "brand": "PLA Basic", "form": "spool", "color_hex": "#E87020", "tray_id_name": "A00-O1", "order": 1},
+    {"name": "Matte Lilac Purple", "brand": "PLA Matte", "form": "refill", "color_hex": "#9370DB", "tray_id_name": "A01-P0", "order": 2},
+    {"name": "Matte Dark Brown", "brand": "PLA Matte", "form": "refill", "color_hex": "#5C3A1E", "tray_id_name": "A01-N2", "order": 2}
+  ]
+}

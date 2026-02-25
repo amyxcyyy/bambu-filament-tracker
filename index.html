@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Filament Tracker - Amy's P1S</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: #0f1117; color: #e0e0e0; min-height: 100vh; }
+  .header { background: linear-gradient(135deg, #1a1d2e, #2a2d4e); padding: 24px 32px; border-bottom: 2px solid #00d4aa; }
+  .header h1 { font-size: 1.6em; color: #fff; }
+  .header .subtitle { color: #8892b0; margin-top: 4px; font-size: 0.9em; }
+  .header .last-updated { color: #00d4aa; font-size: 0.8em; margin-top: 8px; }
+  .container { max-width: 1200px; margin: 0 auto; padding: 24px; }
+
+  /* AMS Live Section */
+  .ams-section { margin-bottom: 32px; }
+  .ams-section h2 { color: #00d4aa; font-size: 1.2em; margin-bottom: 16px; display: flex; align-items: center; gap: 8px; }
+  .ams-live-dot { width: 8px; height: 8px; background: #00d4aa; border-radius: 50%; animation: pulse 2s infinite; }
+  @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.4; } }
+  .ams-trays { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; }
+  .ams-tray { background: #1a1d2e; border-radius: 12px; padding: 16px; text-align: center; border: 1px solid #2a2d4e; }
+  .ams-tray .tray-num { font-size: 0.75em; color: #8892b0; margin-bottom: 8px; }
+  .ams-tray .color-circle { width: 48px; height: 48px; border-radius: 50%; margin: 0 auto 10px; border: 2px solid #333; }
+  .ams-tray .filament-name { font-size: 0.85em; font-weight: 600; color: #fff; }
+  .ams-tray .filament-brand { font-size: 0.7em; color: #8892b0; margin-top: 2px; }
+  .ams-tray .remain-bar { margin-top: 10px; height: 6px; background: #2a2d4e; border-radius: 3px; overflow: hidden; }
+  .ams-tray .remain-fill { height: 100%; border-radius: 3px; transition: width 0.5s; }
+  .ams-tray .remain-text { font-size: 0.8em; margin-top: 4px; font-weight: 600; }
+
+  /* Inventory Section */
+  .section-title { color: #ccd6f6; font-size: 1.2em; margin: 32px 0 16px; }
+  .color-group { margin-bottom: 24px; }
+  .color-group h3 { font-size: 1em; color: #8892b0; margin-bottom: 10px; padding-bottom: 6px; border-bottom: 1px solid #1a1d2e; }
+  .spool-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 10px; }
+  .spool-card { background: #1a1d2e; border-radius: 10px; padding: 14px; text-align: center; border: 1px solid #2a2d4e; position: relative; }
+  .spool-card .swatch { width: 40px; height: 40px; border-radius: 50%; margin: 0 auto 8px; border: 2px solid #333; }
+  .spool-card .spool-name { font-size: 0.8em; font-weight: 600; color: #fff; }
+  .spool-card .spool-brand { font-size: 0.7em; color: #8892b0; margin-top: 2px; }
+  .spool-card .spool-form { font-size: 0.65em; color: #4a5070; margin-top: 2px; text-transform: uppercase; letter-spacing: 0.5px; }
+  .spool-card .ams-badge { position: absolute; top: 8px; right: 8px; background: #00d4aa; color: #0f1117; font-size: 0.6em; font-weight: 700; padding: 2px 6px; border-radius: 4px; }
+  .spool-card .remain-info { margin-top: 8px; }
+  .spool-card .remain-mini-bar { height: 4px; background: #2a2d4e; border-radius: 2px; overflow: hidden; margin-top: 4px; }
+  .spool-card .remain-mini-fill { height: 100%; border-radius: 2px; }
+  .spool-card .remain-pct { font-size: 0.7em; color: #00d4aa; font-weight: 600; }
+  .spool-card.not-loaded .remain-pct { color: #8892b0; }
+
+  /* Stats */
+  .stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 12px; margin-bottom: 24px; }
+  .stat-card { background: #1a1d2e; border-radius: 10px; padding: 16px; text-align: center; border: 1px solid #2a2d4e; }
+  .stat-card .stat-value { font-size: 1.8em; font-weight: 700; color: #00d4aa; }
+  .stat-card .stat-label { font-size: 0.75em; color: #8892b0; margin-top: 4px; }
+
+  .footer { text-align: center; color: #4a5070; font-size: 0.75em; padding: 24px; margin-top: 32px; border-top: 1px solid #1a1d2e; }
+
+  @media (max-width: 600px) {
+    .ams-trays { grid-template-columns: repeat(2, 1fr); }
+    .spool-grid { grid-template-columns: repeat(2, 1fr); }
+    .stats { grid-template-columns: repeat(2, 1fr); }
+    .container { padding: 16px; }
+    .header { padding: 16px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <h1>Filament Tracker</h1>
+  <div class="subtitle">Amy's P1S (01P00C5C1400221)</div>
+  <div class="last-updated" id="lastUpdated">Loading...</div>
+</div>
+
+<div class="container">
+  <!-- Stats -->
+  <div class="stats" id="stats"></div>
+
+  <!-- AMS Live -->
+  <div class="ams-section">
+    <h2><span class="ams-live-dot"></span> AMS Live Status</h2>
+    <div class="ams-trays" id="amsTrays"></div>
+  </div>
+
+  <!-- Full Inventory -->
+  <h2 class="section-title">Full Inventory</h2>
+  <div id="inventory"></div>
+</div>
+
+<div class="footer">Auto-updates every 30 minutes via GitHub Actions</div>
+
+<script>
+const COLOR_GROUPS = [
+  { name: 'White / Neutral', match: s => ['Jade White','White','Beige','Matte Desert Tan'].includes(s.name) },
+  { name: 'Black / Gray', match: s => ['Matte Charcoal','Black','Gray'].includes(s.name) },
+  { name: 'Red / Pink', match: s => ['Red','Pink','Matte Sakura Pink'].includes(s.name) },
+  { name: 'Yellow / Gold', match: s => ['Sunflower Yellow','Matte Lemon Yellow','Gold'].includes(s.name) },
+  { name: 'Blue', match: s => ['Cobalt Blue','Baby Blue','Matte Ice Blue'].includes(s.name) },
+  { name: 'Green', match: s => ['Bambu Green','Mistletoe Green'].includes(s.name) },
+  { name: 'Orange', match: s => ['Pumpkin Orange'].includes(s.name) },
+  { name: 'Purple', match: s => ['Matte Lilac Purple'].includes(s.name) },
+  { name: 'Brown', match: s => ['Matte Dark Brown'].includes(s.name) },
+];
+
+function getRemainColor(pct) {
+  if (pct > 60) return '#00d4aa';
+  if (pct > 30) return '#f0c040';
+  return '#e05050';
+}
+
+function hexFromTrayColor(tc) {
+  if (!tc || tc.length < 6) return '#888';
+  return '#' + tc.substring(0, 6);
+}
+
+async function loadData() {
+  try {
+    const [purchasedRes, amsRes] = await Promise.all([
+      fetch('data/purchased.json'),
+      fetch('data/ams_status.json').catch(() => null)
+    ]);
+
+    const purchased = await purchasedRes.json();
+    let amsStatus = null;
+    if (amsRes && amsRes.ok) {
+      amsStatus = await amsRes.json();
+    }
+
+    render(purchased, amsStatus);
+  } catch (e) {
+    console.error('Failed to load data:', e);
+    document.getElementById('lastUpdated').textContent = 'Error loading data';
+  }
+}
+
+function render(purchased, amsStatus) {
+  const spools = purchased.spools;
+
+  // Last updated
+  if (amsStatus && amsStatus.last_updated) {
+    const d = new Date(amsStatus.last_updated);
+    document.getElementById('lastUpdated').textContent =
+      'Last updated: ' + d.toLocaleString();
+  } else {
+    document.getElementById('lastUpdated').textContent = 'AMS data not yet available';
+  }
+
+  // Match AMS trays to purchased spools by tray_id_name and color
+  const amsTrays = amsStatus ? amsStatus.trays || [] : [];
+  const amsMap = {};
+  amsTrays.forEach(t => {
+    const key = t.tray_id_name + '_' + (t.tray_color || '').substring(0, 6);
+    amsMap[key] = t;
+    // Also map by tag_uid for more precise matching
+    if (t.tag_uid) amsMap['uid_' + t.tag_uid] = t;
+  });
+
+  // Try to match each purchased spool to AMS data
+  spools.forEach(s => {
+    // Match by tray_id_name (may match multiple purchased spools of same type)
+    const colorHex = s.color_hex.replace('#', '').toUpperCase();
+    for (const t of amsTrays) {
+      const trayColor = (t.tray_color || '').substring(0, 6).toUpperCase();
+      if (t.tray_id_name === s.tray_id_name) {
+        s._amsMatch = t;
+        break;
+      }
+    }
+  });
+
+  // Stats
+  const statsEl = document.getElementById('stats');
+  const totalSpools = spools.length;
+  const loadedInAms = amsTrays.length;
+  const avgRemain = amsTrays.length > 0
+    ? Math.round(amsTrays.reduce((a, t) => a + (t.remain || 0), 0) / amsTrays.length)
+    : 0;
+  statsEl.innerHTML = `
+    <div class="stat-card"><div class="stat-value">${totalSpools}</div><div class="stat-label">Total Spools Purchased</div></div>
+    <div class="stat-card"><div class="stat-value">${loadedInAms}</div><div class="stat-label">Loaded in AMS</div></div>
+    <div class="stat-card"><div class="stat-value">${avgRemain}%</div><div class="stat-label">Avg Remaining (AMS)</div></div>
+    <div class="stat-card"><div class="stat-value">${COLOR_GROUPS.length}</div><div class="stat-label">Color Categories</div></div>
+  `;
+
+  // AMS Live Trays
+  const amsTraysEl = document.getElementById('amsTrays');
+  if (amsTrays.length === 0) {
+    amsTraysEl.innerHTML = '<p style="color:#8892b0;grid-column:1/-1;">No AMS data available yet. The first update will arrive within 30 minutes.</p>';
+  } else {
+    amsTraysEl.innerHTML = amsTrays.map((t, i) => {
+      const color = hexFromTrayColor(t.tray_color);
+      const remain = t.remain || 0;
+      const remainColor = getRemainColor(remain);
+      return `
+        <div class="ams-tray">
+          <div class="tray-num">TRAY ${i + 1}</div>
+          <div class="color-circle" style="background:${color};"></div>
+          <div class="filament-name">${t.tray_id_name}</div>
+          <div class="filament-brand">${t.tray_sub_brands || t.tray_type}</div>
+          <div class="remain-bar"><div class="remain-fill" style="width:${remain}%;background:${remainColor};"></div></div>
+          <div class="remain-text" style="color:${remainColor};">${remain}%</div>
+        </div>`;
+    }).join('');
+  }
+
+  // Full Inventory grouped by color
+  const inventoryEl = document.getElementById('inventory');
+  inventoryEl.innerHTML = COLOR_GROUPS.map(group => {
+    const groupSpools = spools.filter(group.match);
+    if (groupSpools.length === 0) return '';
+    return `
+      <div class="color-group">
+        <h3>${group.name} (${groupSpools.length})</h3>
+        <div class="spool-grid">
+          ${groupSpools.map(s => {
+            const inAms = s._amsMatch;
+            const remain = inAms ? inAms.remain : null;
+            const remainColor = remain !== null ? getRemainColor(remain) : '#8892b0';
+            return `
+              <div class="spool-card ${inAms ? '' : 'not-loaded'}">
+                ${inAms ? '<div class="ams-badge">IN AMS</div>' : ''}
+                <div class="swatch" style="background:${s.color_hex};"></div>
+                <div class="spool-name">${s.name}</div>
+                <div class="spool-brand">${s.brand}</div>
+                <div class="spool-form">${s.form}</div>
+                <div class="remain-info">
+                  <div class="remain-pct" style="color:${remainColor};">
+                    ${remain !== null ? remain + '% left' : 'Not loaded'}
+                  </div>
+                  ${remain !== null ? `
+                    <div class="remain-mini-bar">
+                      <div class="remain-mini-fill" style="width:${remain}%;background:${remainColor};"></div>
+                    </div>` : ''}
+                </div>
+              </div>`;
+          }).join('')}
+        </div>
+      </div>`;
+  }).join('');
+}
+
+loadData();
+</script>
+</body>
+</html>
