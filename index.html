@@ -143,24 +143,16 @@ function render(purchased, amsStatus) {
     document.getElementById('lastUpdated').textContent = 'AMS data not yet available';
   }
 
-  // Match AMS trays to purchased spools by tray_id_name and color
+  // Match AMS trays to purchased spools by tray_id_name
+  // Each AMS tray can only match ONE purchased spool (first match wins)
   const amsTrays = amsStatus ? amsStatus.trays || [] : [];
-  const amsMap = {};
-  amsTrays.forEach(t => {
-    const key = t.tray_id_name + '_' + (t.tray_color || '').substring(0, 6);
-    amsMap[key] = t;
-    // Also map by tag_uid for more precise matching
-    if (t.tag_uid) amsMap['uid_' + t.tag_uid] = t;
-  });
+  const matchedTrayUuids = new Set();
 
-  // Try to match each purchased spool to AMS data
   spools.forEach(s => {
-    // Match by tray_id_name (may match multiple purchased spools of same type)
-    const colorHex = s.color_hex.replace('#', '').toUpperCase();
     for (const t of amsTrays) {
-      const trayColor = (t.tray_color || '').substring(0, 6).toUpperCase();
-      if (t.tray_id_name === s.tray_id_name) {
+      if (t.tray_id_name === s.tray_id_name && !matchedTrayUuids.has(t.tray_uuid)) {
         s._amsMatch = t;
+        matchedTrayUuids.add(t.tray_uuid);
         break;
       }
     }
