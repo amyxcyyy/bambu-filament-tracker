@@ -229,7 +229,22 @@ function render(purchased, amsStatus) {
   }).join('');
 }
 
+// Load on page open
 loadData();
+
+// Auto-refresh every 15 minutes while staying on the page
+setInterval(() => {
+  console.log('Auto-refreshing filament data...');
+  loadData();
+}, 15 * 60 * 1000);
+
+// Also refresh when tab becomes visible again (e.g. switching back to the tab)
+document.addEventListener('visibilitychange', () => {
+  if (document.visibilityState === 'visible') {
+    console.log('Tab visible — refreshing data...');
+    loadData();
+  }
+});
 </script>
 </body>
 </html>
