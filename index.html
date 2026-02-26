@@ -116,9 +116,10 @@ function hexFromTrayColor(tc) {
 async function loadData() {
   try {
     const cacheBust = '?t=' + Date.now();
-    const [purchasedRes, amsRes] = await Promise.all([
+    const [purchasedRes, amsRes, usageRes] = await Promise.all([
       fetch('data/purchased.json' + cacheBust),
-      fetch('data/ams_status.json' + cacheBust).catch(() => null)
+      fetch('data/ams_status.json' + cacheBust).catch(() => null),
+      fetch('data/spool_usage.json' + cacheBust).catch(() => null)
     ]);
 
     const purchased = await purchasedRes.json();
@@ -126,15 +127,19 @@ async function loadData() {
     if (amsRes && amsRes.ok) {
       amsStatus = await amsRes.json();
     }
+    let spoolUsage = {};
+    if (usageRes && usageRes.ok) {
+      spoolUsage = await usageRes.json();
+    }
 
-    render(purchased, amsStatus);
+    render(purchased, amsStatus, spoolUsage);
   } catch (e) {
     console.error('Failed to load data:', e);
     document.getElementById('lastUpdated').textContent = 'Error loading data';
   }
 }
 
-function render(purchased, amsStatus) {
+function render(purchased, amsStatus, spoolUsage) {
   const spools = purchased.spools;
 
   // Last updated & last checked
@@ -214,8 +219,10 @@ function render(purchased, amsStatus) {
         <div class="spool-grid">
           ${groupSpools.map(s => {
             const inAms = s._amsMatch;
-            const remain = inAms ? inAms.remain : null;
-            const remainColor = remain !== null ? getRemainColor(remain) : '#8892b0';
+            const usage = spoolUsage[s.tray_id_name];
+            const remain = inAms ? inAms.remain : (usage ? usage.remain : 100);
+            const remainColor = getRemainColor(remain);
+            const label = inAms ? remain + '% left' : (usage ? remain + '% left' : '100% (new)');
             return `
               <div class="spool-card ${inAms ? '' : 'not-loaded'}">
                 ${inAms ? '<div class="ams-badge">IN AMS</div>' : ''}
@@ -225,12 +232,11 @@ function render(purchased, amsStatus) {
                 <div class="spool-form">${s.form}</div>
                 <div class="remain-info">
                   <div class="remain-pct" style="color:${remainColor};">
-                    ${remain !== null ? remain + '% left' : 'Not loaded'}
+                    ${label}
                   </div>
-                  ${remain !== null ? `
-                    <div class="remain-mini-bar">
-                      <div class="remain-mini-fill" style="width:${remain}%;background:${remainColor};"></div>
-                    </div>` : ''}
+                  <div class="remain-mini-bar">
+                    <div class="remain-mini-fill" style="width:${remain}%;background:${remainColor};"></div>
+                  </div>
                 </div>
               </div>`;
           }).join('')}

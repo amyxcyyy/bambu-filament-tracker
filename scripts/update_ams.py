@@ -23,6 +23,7 @@ def main():
     data_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "data")
     ams_file = os.path.join(data_dir, "ams_status.json")
     history_file = os.path.join(data_dir, "usage_history.json")
+    usage_file = os.path.join(data_dir, "spool_usage.json")
 
     # Load existing history
     if os.path.exists(history_file):
@@ -118,6 +119,20 @@ def main():
     with open(ams_file, "w") as f:
         json.dump(status, f, indent=2)
     print(f"AMS status saved: {len(trays)} trays found")
+
+    # Update spool usage tracking (last known remain per tray_id_name)
+    if os.path.exists(usage_file):
+        with open(usage_file) as f:
+            spool_usage = json.load(f)
+    else:
+        spool_usage = {}
+    for t in trays:
+        tid = t["tray_id_name"]
+        if tid:
+            spool_usage[tid] = {"remain": t["remain"], "last_seen": now}
+    with open(usage_file, "w") as f:
+        json.dump(spool_usage, f, indent=2)
+    print(f"Spool usage updated: {len(spool_usage)} spools tracked")
 
     # Append to history (keep last 500 entries)
     history_entry = {"timestamp": now, "trays": trays}
