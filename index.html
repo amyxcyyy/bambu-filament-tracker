@@ -163,13 +163,22 @@ function render(purchased, amsStatus, spoolUsage) {
   const amsTrays = amsStatus ? amsStatus.trays || [] : [];
   const matchedTrayUuids = new Set();
 
+  // For duplicate spools (same tray_id_name), only one gets usage data
+  const usageClaimedIds = new Set();
+
   spools.forEach(s => {
     for (const t of amsTrays) {
       if (t.tray_id_name === s.tray_id_name && !matchedTrayUuids.has(t.tray_uuid)) {
         s._amsMatch = t;
         matchedTrayUuids.add(t.tray_uuid);
+        usageClaimedIds.add(t.tray_id_name);
         break;
       }
+    }
+    // If not in AMS, first duplicate claims the usage history
+    if (!s._amsMatch && spoolUsage[s.tray_id_name] && !usageClaimedIds.has(s.tray_id_name)) {
+      s._usageMatch = spoolUsage[s.tray_id_name];
+      usageClaimedIds.add(s.tray_id_name);
     }
   });
 
@@ -219,7 +228,7 @@ function render(purchased, amsStatus, spoolUsage) {
         <div class="spool-grid">
           ${groupSpools.map(s => {
             const inAms = s._amsMatch;
-            const usage = spoolUsage[s.tray_id_name];
+            const usage = s._usageMatch;
             const remain = inAms ? inAms.remain : (usage ? usage.remain : 100);
             const remainColor = getRemainColor(remain);
             const label = inAms ? remain + '% left' : (usage ? remain + '% left' : '100% (new)');
