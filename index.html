@@ -11,6 +11,7 @@
   .header h1 { font-size: 1.6em; color: #fff; }
   .header .subtitle { color: #8892b0; margin-top: 4px; font-size: 0.9em; }
   .header .last-updated { color: #00d4aa; font-size: 0.8em; margin-top: 8px; }
+  .header .last-checked { color: #8892b0; font-size: 0.75em; margin-top: 4px; }
   .container { max-width: 1200px; margin: 0 auto; padding: 24px; }
 
   /* AMS Live Section */
@@ -68,6 +69,7 @@
   <h1>Filament Tracker</h1>
   <div class="subtitle">Amy's P1S (01P00C5C1400221)</div>
   <div class="last-updated" id="lastUpdated">Loading...</div>
+  <div class="last-checked" id="lastChecked"></div>
 </div>
 
 <div class="container">
@@ -85,7 +87,7 @@
   <div id="inventory"></div>
 </div>
 
-<div class="footer">Auto-updates every 30 minutes via GitHub Actions</div>
+<div class="footer">Auto-updates every 15 minutes via GitHub Actions</div>
 
 <script>
 const COLOR_GROUPS = [
@@ -135,13 +137,20 @@ async function loadData() {
 function render(purchased, amsStatus) {
   const spools = purchased.spools;
 
-  // Last updated
+  // Last updated & last checked
   if (amsStatus && amsStatus.last_updated) {
     const d = new Date(amsStatus.last_updated);
     document.getElementById('lastUpdated').textContent =
-      'Last updated: ' + d.toLocaleString();
+      'Last data: ' + d.toLocaleString();
   } else {
     document.getElementById('lastUpdated').textContent = 'AMS data not yet available';
+  }
+  if (amsStatus && amsStatus.last_checked) {
+    const c = new Date(amsStatus.last_checked);
+    document.getElementById('lastChecked').textContent =
+      'Last checked: ' + c.toLocaleString();
+  } else {
+    document.getElementById('lastChecked').textContent = '';
   }
 
   // Match AMS trays to purchased spools by tray_id_name

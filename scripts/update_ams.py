@@ -74,18 +74,24 @@ def main():
             print("  No data received, retrying in 5 seconds...")
             time.sleep(5)
 
+    now = datetime.now(timezone.utc).isoformat()
+
     if ams_data is None:
-        # If we can't get live data, keep existing file and exit gracefully
+        # If we can't get live data, update last_checked so the page shows we tried
         print("Could not fetch AMS data after all attempts.")
         if os.path.exists(ams_file):
-            print("Keeping existing AMS data file.")
+            with open(ams_file) as f:
+                existing = json.load(f)
+            existing["last_checked"] = now
+            with open(ams_file, "w") as f:
+                json.dump(existing, f, indent=2)
+            print(f"Updated last_checked to {now} (data unchanged).")
             sys.exit(0)
         else:
             print("No existing data file found.")
             sys.exit(1)
 
     # Process AMS data
-    now = datetime.now(timezone.utc).isoformat()
     trays = []
     for unit in ams_data.get("ams", []):
         for tray in unit.get("tray", []):
@@ -103,6 +109,7 @@ def main():
 
     status = {
         "last_updated": now,
+        "last_checked": now,
         "printer_serial": serial,
         "trays": trays,
     }
