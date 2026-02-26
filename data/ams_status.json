@@ -1,6 +1,6 @@
 {
-  "last_updated": "2026-02-26T20:23:34.887559+00:00",
-  "last_checked": "2026-02-26T21:35:12.342395+00:00",
+  "last_updated": "2026-02-26T22:00:38.559666+00:00",
+  "last_checked": "2026-02-26T22:00:38.559666+00:00",
   "printer_serial": "01P00C5C1400221",
   "trays": [
     {
@@ -9,7 +9,7 @@
       "tray_type": "PLA",
       "tray_sub_brands": "PLA Basic",
       "tray_color": "FEC600FF",
-      "remain": 56,
+      "remain": 52,
       "tray_weight": "1000",
       "tag_uid": "C6BEE2E400000100",
       "tray_uuid": "07EEF68553E544F2A607FFDF2BDE881A"
