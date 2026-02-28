@@ -2449,6 +2449,55 @@
           "tray_uuid": "4CA2BB92F218484F892DF70885159D98"
         }
       ]
+    },
+    {
+      "timestamp": "2026-02-28T15:34:56.713245+00:00",
+      "trays": [
+        {
+          "tray_id": "0",
+          "tray_id_name": "A00-Y2",
+          "tray_type": "PLA",
+          "tray_sub_brands": "PLA Basic",
+          "tray_color": "FEC600FF",
+          "remain": 42,
+          "tray_weight": "1000",
+          "tag_uid": "C6BEE2E400000100",
+          "tray_uuid": "07EEF68553E544F2A607FFDF2BDE881A"
+        },
+        {
+          "tray_id": "1",
+          "tray_id_name": "A00-W1",
+          "tray_type": "PLA",
+          "tray_sub_brands": "PLA Basic",
+          "tray_color": "FFFFFFFF",
+          "remain": 95,
+          "tray_weight": "1000",
+          "tag_uid": "F539052600000100",
+          "tray_uuid": "BF4C513BEA6B455399989DF0431AADA9"
+        },
+        {
+          "tray_id": "2",
+          "tray_id_name": "A01-K1",
+          "tray_type": "PLA",
+          "tray_sub_brands": "PLA Matte",
+          "tray_color": "000000FF",
+          "remain": 37,
+          "tray_weight": "1000",
+          "tag_uid": "5637C2EA00000100",
+          "tray_uuid": "B13EB52692E54D1AB49811E386A971C8"
+        },
+        {
+          "tray_id": "3",
+          "tray_id_name": "A00-R0",
+          "tray_type": "PLA",
+          "tray_sub_brands": "PLA Basic",
+          "tray_color": "C12E1FFF",
+          "remain": 56,
+          "tray_weight": "1000",
+          "tag_uid": "664012E900000100",
+          "tray_uuid": "4CA2BB92F218484F892DF70885159D98"
+        }
+      ]
     }
   ]
 }
