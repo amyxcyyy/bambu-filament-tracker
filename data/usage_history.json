@@ -13474,6 +13474,55 @@
           "tray_uuid": "4CA2BB92F218484F892DF70885159D98"
         }
       ]
+    },
+    {
+      "timestamp": "2026-03-14T22:13:32.922188+00:00",
+      "trays": [
+        {
+          "tray_id": "0",
+          "tray_id_name": "A06-Y1",
+          "tray_type": "PLA",
+          "tray_sub_brands": "PLA Silk+",
+          "tray_color": "F4A925FF",
+          "remain": 91,
+          "tray_weight": "1000",
+          "tag_uid": "B6CB4EEC00000100",
+          "tray_uuid": "4DC0DE0DEA674F9292CD759EE147BB30"
+        },
+        {
+          "tray_id": "1",
+          "tray_id_name": "A00-W1",
+          "tray_type": "PLA",
+          "tray_sub_brands": "PLA Basic",
+          "tray_color": "FFFFFFFF",
+          "remain": 86,
+          "tray_weight": "1000",
+          "tag_uid": "F539052600000100",
+          "tray_uuid": "BF4C513BEA6B455399989DF0431AADA9"
+        },
+        {
+          "tray_id": "2",
+          "tray_id_name": "",
+          "tray_type": "PLA",
+          "tray_sub_brands": "",
+          "tray_color": "161616FF",
+          "remain": -1,
+          "tray_weight": "0",
+          "tag_uid": "0000000000000000",
+          "tray_uuid": "00000000000000000000000000000000"
+        },
+        {
+          "tray_id": "3",
+          "tray_id_name": "A00-R0",
+          "tray_type": "PLA",
+          "tray_sub_brands": "PLA Basic",
+          "tray_color": "C12E1FFF",
+          "remain": 40,
+          "tray_weight": "1000",
+          "tag_uid": "664012E900000100",
+          "tray_uuid": "4CA2BB92F218484F892DF70885159D98"
+        }
+      ]
     }
   ]
 }
