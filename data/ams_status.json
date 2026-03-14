@@ -1,6 +1,6 @@
 {
-  "last_updated": "2026-03-14T19:37:40.728735+00:00",
-  "last_checked": "2026-03-14T20:15:46.145653+00:00",
+  "last_updated": "2026-03-14T20:46:36.306206+00:00",
+  "last_checked": "2026-03-14T20:46:36.306206+00:00",
   "printer_serial": "01P00C5C1400221",
   "trays": [
     {
@@ -9,7 +9,7 @@
       "tray_type": "PLA",
       "tray_sub_brands": "PLA Silk+",
       "tray_color": "F4A925FF",
-      "remain": 93,
+      "remain": 91,
       "tray_weight": "1000",
       "tag_uid": "B6CB4EEC00000100",
       "tray_uuid": "4DC0DE0DEA674F9292CD759EE147BB30"
