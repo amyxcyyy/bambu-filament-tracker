@@ -1,18 +1,18 @@
 {
-  "last_updated": "2026-09-25T08:58:10.417575+00:00",
-  "last_checked": "2026-09-25T18:46:25.252121+00:00",
+  "last_updated": "2026-09-25T21:49:57.779603+00:00",
+  "last_checked": "2026-09-25T21:49:57.779603+00:00",
   "printer_serial": "01P00C5C1400221",
   "trays": [
     {
       "tray_id": "0",
-      "tray_id_name": "A00-P0",
+      "tray_id_name": "A00-Y2",
       "tray_type": "PLA",
       "tray_sub_brands": "PLA Basic",
-      "tray_color": "F7E6DEFF",
-      "remain": 67,
+      "tray_color": "FEC600FF",
+      "remain": 27,
       "tray_weight": "1000",
-      "tag_uid": "E65DF6E100000100",
-      "tray_uuid": "0711C480E84049CB9B12AF5730963AB2"
+      "tag_uid": "C6BEE2E400000100",
+      "tray_uuid": "07EEF68553E544F2A607FFDF2BDE881A"
     },
     {
       "tray_id": "1",
