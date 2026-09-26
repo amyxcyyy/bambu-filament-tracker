@@ -1,6 +1,6 @@
 {
-  "last_updated": "2026-09-26T00:12:34.227758+00:00",
-  "last_checked": "2026-09-26T09:36:51.207152+00:00",
+  "last_updated": "2026-09-26T13:51:58.286021+00:00",
+  "last_checked": "2026-09-26T13:51:58.286021+00:00",
   "printer_serial": "01P00C5C1400221",
   "trays": [
     {
@@ -9,7 +9,7 @@
       "tray_type": "PLA",
       "tray_sub_brands": "PLA Basic",
       "tray_color": "FEC600FF",
-      "remain": 27,
+      "remain": 25,
       "tray_weight": "1000",
       "tag_uid": "C6BEE2E400000100",
       "tray_uuid": "07EEF68553E544F2A607FFDF2BDE881A"
@@ -20,7 +20,7 @@
       "tray_type": "PLA",
       "tray_sub_brands": "PLA Basic",
       "tray_color": "FFFFFFFF",
-      "remain": 66,
+      "remain": 69,
       "tray_weight": "1000",
       "tag_uid": "F539052600000100",
       "tray_uuid": "BF4C513BEA6B455399989DF0431AADA9"
@@ -42,7 +42,7 @@
       "tray_type": "PLA",
       "tray_sub_brands": "PLA Basic",
       "tray_color": "3F8E43FF",
-      "remain": 57,
+      "remain": 43,
       "tray_weight": "1000",
       "tag_uid": "C6CB55E000000100",
       "tray_uuid": "E1107A68B37C40AEBE343218CECA432D"
