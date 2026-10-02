@@ -1,6 +1,6 @@
 {
-  "last_updated": "2026-10-02T12:30:38.131956+00:00",
-  "last_checked": "2026-10-02T12:30:38.131956+00:00",
+  "last_updated": "2026-10-02T17:58:15.422828+00:00",
+  "last_checked": "2026-10-02T17:58:15.422828+00:00",
   "printer_serial": "01P00C5C1400221",
   "trays": [
     {
@@ -42,7 +42,7 @@
       "tray_type": "PLA",
       "tray_sub_brands": "PLA Matte",
       "tray_color": "A3D8E1FF",
-      "remain": 28,
+      "remain": 18,
       "tray_weight": "1000",
       "tag_uid": "566B3CEC00000100",
       "tray_uuid": "BE358F371BD946BD893595155A3DFF17"
