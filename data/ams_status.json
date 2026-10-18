@@ -1,6 +1,51 @@
 {
-  "last_updated": "2026-10-17T22:45:25.299744+00:00",
-  "last_checked": "2026-10-18T00:22:38.838111+00:00",
+  "last_updated": "2026-10-18T04:48:25.914659+00:00",
+  "last_checked": "2026-10-18T04:48:25.914659+00:00",
   "printer_serial": "01P00C5C1400221",
-  "trays": []
+  "trays": [
+    {
+      "tray_id": "0",
+      "tray_id_name": "A00-Y2",
+      "tray_type": "PLA",
+      "tray_sub_brands": "PLA Basic",
+      "tray_color": "FEC600FF",
+      "remain": 15,
+      "tray_weight": "1000",
+      "tag_uid": "C6BEE2E400000100",
+      "tray_uuid": "07EEF68553E544F2A607FFDF2BDE881A"
+    },
+    {
+      "tray_id": "1",
+      "tray_id_name": "A00-W1",
+      "tray_type": "PLA",
+      "tray_sub_brands": "PLA Basic",
+      "tray_color": "FFFFFFFF",
+      "remain": 30,
+      "tray_weight": "1000",
+      "tag_uid": "F539052600000100",
+      "tray_uuid": "BF4C513BEA6B455399989DF0431AADA9"
+    },
+    {
+      "tray_id": "2",
+      "tray_id_name": "",
+      "tray_type": "PLA",
+      "tray_sub_brands": "",
+      "tray_color": "161616FF",
+      "remain": -1,
+      "tray_weight": "0",
+      "tag_uid": "0000000000000000",
+      "tray_uuid": "00000000000000000000000000000000"
+    },
+    {
+      "tray_id": "3",
+      "tray_id_name": "A00-G2",
+      "tray_type": "PLA",
+      "tray_sub_brands": "PLA Basic",
+      "tray_color": "3F8E43FF",
+      "remain": 56,
+      "tray_weight": "1000",
+      "tag_uid": "C6CB55E000000100",
+      "tray_uuid": "E1107A68B37C40AEBE343218CECA432D"
+    }
+  ]
 }
